@@ -12,6 +12,7 @@ public class Category extends Entity<CategoryID> {
     private String name;
     private String description;
     private boolean active;
+    private Category parent;
     private Instant createdAt;
     private Instant updatedAt;
     private Instant deletedAt;
@@ -21,6 +22,7 @@ public class Category extends Entity<CategoryID> {
             final String aName,
             final String aDescription,
             final boolean isActive,
+            final Category parent,
             final Instant aCreationDate,
             final Instant aUpdateDate,
             final Instant aDeleteDate
@@ -29,16 +31,21 @@ public class Category extends Entity<CategoryID> {
         this.name = aName;
         this.description = aDescription;
         this.active = isActive;
+        this.parent = parent;
         this.createdAt = Objects.requireNonNull(aCreationDate, "'createdAt' should not be null");
         this.updatedAt = Objects.requireNonNull(aUpdateDate, "'updatedAt' should not be null");
         this.deletedAt = aDeleteDate;
     }
 
-    public static Category newCategory(final String aName, final String aDescription, final boolean isActive) {
+    private Category(CategoryID id){
+        super(id);
+    }
+
+    public static Category newCategory(final String aName, final String aDescription, final boolean isActive, final Category parent) {
         final var id = CategoryID.unique();
         final var now = InstantUtils.now();
         final var deletedAt = isActive ? null : now;
-        return new Category(id, aName, aDescription, isActive, now, now, deletedAt);
+        return new Category(id, aName, aDescription, isActive, parent, now, now, deletedAt);
     }
 
     public static Category with(
@@ -46,6 +53,7 @@ public class Category extends Entity<CategoryID> {
             final String name,
             final String description,
             final boolean active,
+            final Category parent,
             final Instant createdAt,
             final Instant updatedAt,
             final Instant deletedAt
@@ -55,6 +63,7 @@ public class Category extends Entity<CategoryID> {
                 name,
                 description,
                 active,
+                parent,
                 createdAt,
                 updatedAt,
                 deletedAt
@@ -67,10 +76,15 @@ public class Category extends Entity<CategoryID> {
                 aCategory.name,
                 aCategory.description,
                 aCategory.isActive(),
+                aCategory.parent,
                 aCategory.createdAt,
                 aCategory.updatedAt,
                 aCategory.deletedAt
         );
+    }
+
+    public static Category with(final CategoryID anId){
+        return new Category(anId);
     }
 
     @Override
@@ -125,6 +139,10 @@ public class Category extends Entity<CategoryID> {
 
     public boolean isActive() {
         return active;
+    }
+
+    public Category getParent() {
+        return parent;
     }
 
     public Instant getCreatedAt() {

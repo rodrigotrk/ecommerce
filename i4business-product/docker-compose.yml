@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  products-postgres:
+    image: postgres:16.2-alpine
+    container_name: products-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: products
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - productsnetwork
+
+networks:
+  productsnetwork:
+    driver: bridge
