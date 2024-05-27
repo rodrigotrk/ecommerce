@@ -1,4 +1,6 @@
-package br.com.i4business.store.category;
+package br.com.i4business.store.category.create;
+
+import br.com.i4business.store.category.Category;
 
 public record CreateCategoryCommand(
         String name,
@@ -10,9 +12,9 @@ public record CreateCategoryCommand(
     public static CreateCategoryCommand with(
             final String aName,
             final String aDescription,
-            final boolean isActive,
+            final Boolean isActive,
             final Category parent
     ) {
-        return new CreateCategoryCommand(aName, aDescription, isActive, parent);
+        return new CreateCategoryCommand(aName, aDescription, isActive != null ? isActive : true, parent);
     }
 }

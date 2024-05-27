@@ -112,7 +112,8 @@ public class Category extends Entity<CategoryID> {
     public Category update(
             final String aName,
             final String aDescription,
-            final boolean isActive
+            final boolean isActive,
+            final Category parent
     ) {
         if (isActive) {
             activate();
@@ -122,6 +123,7 @@ public class Category extends Entity<CategoryID> {
         this.name = aName;
         this.description = aDescription;
         this.updatedAt = Instant.now();
+        this.parent = parent;
         return this;
     }
 
