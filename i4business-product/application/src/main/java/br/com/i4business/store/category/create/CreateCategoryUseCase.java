@@ -1,4 +1,4 @@
-package br.com.i4business.store.category;
+package br.com.i4business.store.category.create;
 
 import br.com.i4business.store.UseCase;
 

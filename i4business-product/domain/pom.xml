@@ -13,6 +13,7 @@
     <artifactId>domain</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>domain</name>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>

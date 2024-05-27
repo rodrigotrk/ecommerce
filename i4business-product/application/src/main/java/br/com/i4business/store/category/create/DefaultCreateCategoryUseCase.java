@@ -1,5 +1,7 @@
-package br.com.i4business.store.category;
+package br.com.i4business.store.category.create;
 
+import br.com.i4business.store.category.Category;
+import br.com.i4business.store.category.CategoryGateway;
 import br.com.i4business.store.exception.NotificationException;
 import br.com.i4business.store.validation.handler.Notification;
 
@@ -20,7 +22,8 @@ public class DefaultCreateCategoryUseCase extends CreateCategoryUseCase{
                 createCategoryCommand.name(),
                 createCategoryCommand.description(),
                 createCategoryCommand.isActive(),
-                Objects.isNull(createCategoryCommand.parent()) ? null : createCategoryCommand.parent()
+                isEmptyParent(createCategoryCommand.parent()) ? null
+                        : createCategoryCommand.parent()
         ));
 
         if(notification.hasError()){
@@ -31,6 +34,14 @@ public class DefaultCreateCategoryUseCase extends CreateCategoryUseCase{
 
     private void notify(Notification notification){
         throw new NotificationException("Could not create Aggregate Category", notification);
+    }
+
+    private boolean isEmptyParent(Category aCategory){
+        if(aCategory == null){
+            return true;
+        }
+
+        return aCategory.getId().getValue().trim().isEmpty();
     }
 
 
